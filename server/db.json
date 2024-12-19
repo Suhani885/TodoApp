@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "fName": "John",
+      "lName": "J",
+      "email": "admin@gmail.com",
+      "password": "Admin@123",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "fName": "Sam",
+      "lName": "S",
+      "email": "manager@gmail.com",
+      "password": "Manager@123",
+      "role": "manager"
+    },
+    {
+      "id": "3",
+      "fName": "Mike",
+      "lName": "M",
+      "email": "user@gmail.com",
+      "password": "User@123",
+      "role": "user"
+    },
+    {
+      "id": "7f72",
+      "fName": "g",
+      "lName": "",
+      "email": "suhani@gmail.com",
+      "password": "Suhani@123",
+      "role": "user"
+    }
+  ],
+  "todos": [],
+  "adminData": {
+    "totalUsers": 150
+  },
+  "managerData": {},
+  "userData": {
+    "completedTasks": 10,
+    "pendingTasks": 5
+  }
+}
