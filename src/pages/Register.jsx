@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Register = () => {
     email: "",
     password: "",
     cPassword: "",
-    role: "user" 
+    role: "User" 
   });
 
   const [passwordError, setPasswordError] = useState("");
@@ -97,9 +98,9 @@ const Register = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="#" className="text-pink-500 hover:underline font-semibold">
+            <Link to="/" className="text-pink-500 hover:underline font-semibold">
               Sign In
-            </a>
+            </Link>
           </p>
         </div>
       </div>

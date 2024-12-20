@@ -6,7 +6,7 @@
       "lName": "J",
       "email": "admin@gmail.com",
       "password": "Admin@123",
-      "role": "admin"
+      "role": "Admin"
     },
     {
       "id": "2",
@@ -14,23 +14,15 @@
       "lName": "S",
       "email": "manager@gmail.com",
       "password": "Manager@123",
-      "role": "manager"
+      "role": "Manager"
     },
     {
       "id": "3",
-      "fName": "Mike",
-      "lName": "M",
-      "email": "user@gmail.com",
-      "password": "User@123",
-      "role": "user"
-    },
-    {
-      "id": "7f72",
-      "fName": "g",
+      "fName": "Suhani",
       "lName": "",
       "email": "suhani@gmail.com",
       "password": "Suhani@123",
-      "role": "user"
+      "role": "User"
     }
   ],
   "todos": [],

@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import {Link, useNavigate } from 'react-router-dom';
+import Header from '../components/Header'
+import axios from 'axios';
 
 const initialUsers = [
   { 
@@ -34,6 +37,14 @@ const Admin = () => {
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    confirm("Do you really want to logout?");
+    navigate('/');
+  };
+
   const handleDeleteUser = (userId) => {
     setUsers(users.filter(user => user.id !== userId));
   };
@@ -44,14 +55,8 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 via-pink-200 to-pink-300">
-      <nav class="bg-white border-gray-200 ">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <img src="src/images/logo.png" class="h-10" alt="Logo"/>
-          <div class=" w-full md:block md:w-auto" >
-            <p className='text-black text-2xl font-serif'>Admin Panel - Role Management</p>
-          </div>
-        </div>
-      </nav>
+      <Header/>
+      <h1 className="text-4xl font-serif text-pink-500 text-center mt-6 mb-8">Admin Panel - Role Management</h1>
       <div className="container mx-auto bg-white rounded-xl shadow-xl p-10 mt-10">
         <div className="overflow-x-auto">
           <table className="w-full bg-white border border-gray-200 rounded-lg">

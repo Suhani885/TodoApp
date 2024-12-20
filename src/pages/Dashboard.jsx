@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const Dashboard = () => {
           <div className="bg-pink-50 p-8 rounded-2xl shadow-md">
             <h3 className="mt-2 text-2xl font-bold text-gray-800">User Role Management</h3>
             <p className="mt-2 mb-7 text-gray-600">Get started and manage roles of all using DoBeeDo.</p>
-            <button type="button" class="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">Start Now</button>
+            <Link to="/admin"><button type="button" className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">Start Now</button></Link>
           </div>
         </div>
       );
@@ -58,7 +59,7 @@ const Dashboard = () => {
           <div className="bg-pink-50 p-8 rounded-2xl shadow-md">
             <h3 className="mt-2 text-2xl font-bold text-gray-800">User Permissions Management</h3>
             <p className="mt-2 mb-7 text-gray-600">Get started and assign user permissions for DoBeeDo. </p>
-            <button type="button" class="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">Start Now</button>
+            <Link to="/manager"><button type="button" className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">Start Now</button></Link>
           </div>
         </div>
       );
@@ -67,10 +68,15 @@ const Dashboard = () => {
       return (
         <div className="p-4 mt-8">
           <div className="bg-pink-50 p-6 rounded-2xl shadow-md">
-            <h3 className="text-2xl font-bold text-gray-800">My Tasks</h3>
+            <h3 className="text-3xl mb-6 font-bold text-gray-800">My Tasks</h3>
             <p className="mt-2 text-gray-600">Completed: {stats.completedTasks}</p>
             <p className="mt-2 mb-4 text-gray-600">Pending: {stats.pendingTasks}</p>
-            <button type="button" class="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">Get Started</button>
+            <Link to="/todo">
+              <button type="button" className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-4 py-2 flex items-center gap-2 ">
+                Get Started 
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.5em" viewBox="0 0 12 24"><path fill="#fff" fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414"/></svg>
+              </button>
+            </Link>
           </div>
         </div>
       );
@@ -79,18 +85,8 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 via-pink-200 to-pink-300 flex flex-col">
-      <header className="bg-white shadow-md p-4 flex justify-between items-center">
-        <div className="flex items-center">
-          <img src="src/images/logo.png" alt="Logo" className="h-12 mr-4"/>
-        </div>
-        <div>
-          <button 
-            onClick={handleLogout}
-            className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition">
-            Logout
-          </button>
-        </div>
-      </header>
+
+      <Header/>
 
       <div className="flex-grow container mx-auto px-4 py-8">
         <div className="bg-white rounded-xl shadow-2xl p-8">
@@ -99,7 +95,7 @@ const Dashboard = () => {
               Welcome, {user.fName} !
             </h2>
             <p className="text-gray-600 mt-2">
-              {user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard
+              {user.role} Dashboard
             </p>
           </div>
 
