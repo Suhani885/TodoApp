@@ -3,7 +3,7 @@
     {
       "id": "1",
       "fName": "John",
-      "lName": "J",
+      "lName": "Jan",
       "email": "admin@gmail.com",
       "password": "Admin@123",
       "role": "Admin"
@@ -11,7 +11,7 @@
     {
       "id": "2",
       "fName": "Sam",
-      "lName": "S",
+      "lName": "Sim",
       "email": "manager@gmail.com",
       "password": "Manager@123",
       "role": "Manager"
@@ -22,6 +22,14 @@
       "lName": "",
       "email": "suhani@gmail.com",
       "password": "Suhani@123",
+      "role": "User"
+    },
+    {
+      "id": "4",
+      "fName": "Sitara",
+      "lName": "Pitara",
+      "email": "sitara@gmail.com",
+      "password": "Sitara@123",
       "role": "User"
     }
   ],
