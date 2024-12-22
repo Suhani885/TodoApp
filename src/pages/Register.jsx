@@ -11,6 +11,8 @@ const Register = () => {
     password: "",
     cPassword: "",
     role: "User",
+    permissions: ["Create", "Delete", "Update"],
+    todos: [],
   });
 
   const [passwordError, setPasswordError] = useState("");
@@ -44,6 +46,8 @@ const Register = () => {
         email: formData.email,
         password: formData.password,
         role: formData.role,
+        permissions: formData.permissions,
+        todos: formData.todos,
       });
 
       alert("Registration Successful");
@@ -59,7 +63,7 @@ const Register = () => {
       <div className="w-full max-w-md bg-white rounded-xl shadow-xl py-12 px-7">
         <div className="flex justify-center mb-2">
           <img
-            src="src/images/logo.png"
+            src="src/assets/logo.png"
             alt="Logo"
             className="max-h-20 object-contain"
           />

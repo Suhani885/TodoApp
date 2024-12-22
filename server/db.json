@@ -6,7 +6,10 @@
       "lName": "Jan",
       "email": "admin@gmail.com",
       "password": "Admin@123",
-      "role": "Admin"
+      "role": "Admin",
+      "adminData": {
+        "totalUsers": 3
+      }
     },
     {
       "id": "2",
@@ -14,32 +17,55 @@
       "lName": "Sim",
       "email": "manager@gmail.com",
       "password": "Manager@123",
-      "role": "Manager"
+      "role": "Manager",
+      "data": {}
     },
     {
       "id": "3",
       "fName": "Suhani",
-      "lName": "",
+      "lName": "Singh",
       "email": "suhani@gmail.com",
       "password": "Suhani@123",
-      "role": "User"
+      "role": "User",
+      "permissions": [
+        "Create",
+        "Delete",
+        "Update"
+      ],
+      "todos": [
+        {
+          "id": 1734805093830,
+          "text": "hello world",
+          "completed": false
+        },
+        {
+          "id": 1734806925184,
+          "text": "bonjour",
+          "completed": false
+        }
+      ],
+      "data": {
+        "completed": 0,
+        "pending": 3
+      }
     },
     {
       "id": "4",
-      "fName": "Sitara",
-      "lName": "Pitara",
-      "email": "sitara@gmail.com",
-      "password": "Sitara@123",
-      "role": "User"
+      "fName": "Vivienne",
+      "lName": "",
+      "email": "v@gmail.com",
+      "password": "Vivienne@123",
+      "role": "User",
+      "permissions": [
+        "Create",
+        "Delete",
+        "Update"
+      ],
+      "todos": [],
+      "data": {
+        "completed": 5,
+        "pending": 10
+      }
     }
-  ],
-  "todos": [],
-  "adminData": {
-    "totalUsers": 150
-  },
-  "managerData": {},
-  "userData": {
-    "completedTasks": 10,
-    "pendingTasks": 5
-  }
+  ]
 }

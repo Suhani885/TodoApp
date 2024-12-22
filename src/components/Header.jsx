@@ -1,13 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    confirm("Do you really want to logout?");
-    navigate("/");
+    if (confirm("Do you really want to logout?")) {
+      localStorage.removeItem("user");
+      navigate("/");
+    }
   };
 
   return (

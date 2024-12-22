@@ -6,10 +6,7 @@ import Header from "../components/Header";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [stats, setStats] = useState({
-    completedTasks: 0,
-    pendingTasks: 0,
-  });
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -21,19 +18,21 @@ const Dashboard = () => {
 
     setUser(storedUser);
 
-    const fetchStats = async () => {
+    const fetchUserData = async () => {
       try {
-        const statsResponse = await axios.get(`http://localhost:3001/userData`);
-        setStats(statsResponse.data);
+        const response = await axios.get(
+          `http://localhost:3001/users/${storedUser.id}`
+        );
+        setUserData(response.data);
       } catch (error) {
-        console.error("Failed to fetch stats", error);
+        console.error("Failed to fetch user data", error);
       }
     };
 
-    fetchStats();
+    fetchUserData();
   }, [navigate]);
 
-  if (!user) return null;
+  if (!user || !userData) return null;
 
   const roleContent = () => {
     if (user.role === "Admin") {
@@ -79,16 +78,29 @@ const Dashboard = () => {
         </div>
       );
     } else {
+      const completedTasks =
+        userData.todos?.filter((todo) => todo.completed)?.length || 0;
+      const pendingTasks =
+        userData.todos?.filter((todo) => !todo.completed)?.length || 0;
+
       return (
         <div className="p-4 mt-8">
           <div className="bg-pink-50 p-6 rounded-2xl shadow-md">
             <h3 className="text-3xl mb-6 font-bold text-gray-800">My Tasks</h3>
-            <p className="mt-2 text-gray-600">
-              Completed: {stats.completedTasks}
-            </p>
-            <p className="mt-2 mb-4 text-gray-600">
-              Pending: {stats.pendingTasks}
-            </p>
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="bg-white p-4 rounded-lg shadow">
+                <p className="text-gray-600 text-sm">Completed Tasks</p>
+                <p className="text-2xl font-bold text-green-600">
+                  {completedTasks}
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow">
+                <p className="text-gray-600 text-sm">Pending Tasks</p>
+                <p className="text-2xl font-bold text-yellow-600">
+                  {pendingTasks}
+                </p>
+              </div>
+            </div>
             <Link to="/todo">
               <button
                 type="button"

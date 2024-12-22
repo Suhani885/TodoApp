@@ -64,7 +64,7 @@ const Admin = () => {
                 {users.map((user) => (
                   <tr key={user.id} className="border-b hover:bg-pink-50">
                     <td className="p-4">
-                      {`${user.fName} ${user.lName}`.trim()}
+                      {user.fName} {user.lName}
                     </td>
                     <td className="p-4">{user.email}</td>
                     <td className="p-4">
