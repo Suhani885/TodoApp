@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Header from "../components/Header";
 import axios from "axios";
 
@@ -7,28 +8,38 @@ const Admin = () => {
   const [editingUserId, setEditingUserId] = useState(null);
   const BASE_URL = "http://localhost:3001";
 
+  const loggedInUser = useSelector((state) => state.user.user);
+
   useEffect(() => {
     getUsers();
   }, []);
 
   const getUsers = async () => {
-    const response = await axios.get(`${BASE_URL}/users`);
-    setUsers(response.data);
+    try {
+      const response = await axios.get(`${BASE_URL}/users`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Failed to fetch users", error);
+    }
   };
 
   const handleRoleChange = async (userId, newRole) => {
     const userToUpdate = users.find((user) => user.id === userId);
-    await axios.patch(`${BASE_URL}/users/${userId}`, {
-      ...userToUpdate,
-      role: newRole,
-    });
+    try {
+      await axios.patch(`${BASE_URL}/users/${userId}`, {
+        ...userToUpdate,
+        role: newRole,
+      });
 
-    setUsers(
-      users.map((user) =>
-        user.id === userId ? { ...user, role: newRole } : user
-      )
-    );
-    setEditingUserId(null);
+      setUsers(
+        users.map((user) =>
+          user.id === userId ? { ...user, role: newRole } : user
+        )
+      );
+      setEditingUserId(null);
+    } catch (error) {
+      console.error("Failed to update role", error);
+    }
   };
 
   const getRoleColor = (role) => {
@@ -61,51 +72,55 @@ const Admin = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} className="border-b hover:bg-pink-50">
-                    <td className="p-4">
-                      {user.fName} {user.lName}
-                    </td>
-                    <td className="p-4">{user.email}</td>
-                    <td className="p-4">
-                      {editingUserId === user.id ? (
-                        <select
-                          defaultValue={user.role}
-                          onChange={(e) =>
-                            handleRoleChange(user.id, e.target.value)
-                          }
-                          className="px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-pink-300"
-                        >
-                          <option value="Admin">Admin</option>
-                          <option value="Manager">Manager</option>
-                          <option value="User">User</option>
-                        </select>
-                      ) : (
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs ${getRoleColor(
-                            user.role
-                          )}`}
-                        >
-                          {user.role}
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-4">
-                      <div className="space-x-2">
-                        <button
-                          onClick={() =>
-                            setEditingUserId(
-                              editingUserId === user.id ? null : user.id
-                            )
-                          }
-                          className="px-3 py-1 text-yellow-600 hover:text-yellow-700"
-                        >
-                          {editingUserId === user.id ? "Cancel" : "Change Role"}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {users
+                  .filter((user) => user.id !== loggedInUser.id)
+                  .map((user) => (
+                    <tr key={user.id} className="border-b hover:bg-pink-50">
+                      <td className="p-4">
+                        {user.fName} {user.lName}
+                      </td>
+                      <td className="p-4">{user.email}</td>
+                      <td className="p-4">
+                        {editingUserId === user.id ? (
+                          <select
+                            defaultValue={user.role}
+                            onChange={(e) =>
+                              handleRoleChange(user.id, e.target.value)
+                            }
+                            className="px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-pink-300"
+                          >
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="User">User</option>
+                          </select>
+                        ) : (
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs ${getRoleColor(
+                              user.role
+                            )}`}
+                          >
+                            {user.role}
+                          </span>
+                        )}
+                      </td>
+                      <td className="p-4">
+                        <div className="space-x-2">
+                          <button
+                            onClick={() =>
+                              setEditingUserId(
+                                editingUserId === user.id ? null : user.id
+                              )
+                            }
+                            className="px-3 py-1 text-yellow-600 hover:text-yellow-700"
+                          >
+                            {editingUserId === user.id
+                              ? "Cancel"
+                              : "Change Role"}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

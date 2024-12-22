@@ -7,8 +7,10 @@
       "email": "admin@gmail.com",
       "password": "Admin@123",
       "role": "Admin",
-      "adminData": {
-        "totalUsers": 3
+      "permissions": {
+        "delete": true,
+        "create": true,
+        "update": true
       }
     },
     {
@@ -18,7 +20,11 @@
       "email": "manager@gmail.com",
       "password": "Manager@123",
       "role": "Manager",
-      "data": {}
+      "permissions": {
+        "update": true,
+        "create": true,
+        "delete": true
+      }
     },
     {
       "id": "3",
@@ -27,26 +33,31 @@
       "email": "suhani@gmail.com",
       "password": "Suhani@123",
       "role": "User",
-      "permissions": [
-        "Create",
-        "Delete",
-        "Update"
-      ],
+      "permissions": {
+        "delete": true,
+        "update": true,
+        "create": true
+      },
       "todos": [
         {
-          "id": 1734805093830,
-          "text": "hello world",
+          "id": 1734848169770,
+          "text": "gqrg4g",
+          "completed": true
+        },
+        {
+          "id": 1734848179905,
+          "text": "hellooooo",
           "completed": false
         },
         {
-          "id": 1734806925184,
-          "text": "bonjour",
+          "id": 1734848187957,
+          "text": "hiieeeyyy",
           "completed": false
         }
       ],
       "data": {
-        "completed": 0,
-        "pending": 3
+        "completed": 1,
+        "pending": 2
       }
     },
     {
@@ -56,15 +67,33 @@
       "email": "v@gmail.com",
       "password": "Vivienne@123",
       "role": "User",
-      "permissions": [
-        "Create",
-        "Delete",
-        "Update"
-      ],
+      "permissions": {
+        "delete": true,
+        "update": false,
+        "create": true
+      },
       "todos": [],
       "data": {
-        "completed": 5,
-        "pending": 10
+        "completed": 0,
+        "pending": 0
+      }
+    },
+    {
+      "id": "d789",
+      "fName": "Hello",
+      "lName": "World",
+      "email": "hello@gmail.com",
+      "password": "Hello@123",
+      "role": "User",
+      "permissions": {
+        "delete": false,
+        "update": true,
+        "create": true
+      },
+      "todos": [],
+      "data": {
+        "completed": 0,
+        "pending": 0
       }
     }
   ]

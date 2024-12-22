@@ -1,24 +1,25 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+const Header = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user) || {};
 
   const handleLogout = () => {
     if (confirm("Do you really want to logout?")) {
-      localStorage.removeItem("user");
       navigate("/");
     }
   };
 
   return (
-    <>
-      <nav className="bg-white border-gray-200 shadow-sm">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <div className="flex content-center gap-1">
-            <img src="src/assets/bow.png" className="h-8" alt="Bow" />
-            <img src="src/assets/logo.png" className="h-10" alt="Logo" />
-          </div>
+    <nav className="bg-white border-gray-200 shadow-sm">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="flex content-center gap-1">
+          <img src="src/assets/bow.png" className="h-8" alt="Bow" />
+          <img src="src/assets/logo.png" className="h-10" alt="Logo" />
+        </div>
+        {user && (
           <div>
             <button
               onClick={handleLogout}
@@ -37,10 +38,10 @@ function Header() {
               </svg>
             </button>
           </div>
-        </div>
-      </nav>
-    </>
+        )}
+      </div>
+    </nav>
   );
-}
+};
 
 export default Header;

@@ -1,43 +1,62 @@
-import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../components/Header";
 
-function Manager() {
+const Manager = () => {
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.user);
   const [users, setUsers] = useState([]);
   const [editingUserId, setEditingUserId] = useState(null);
-  const BASE_URL = "http://localhost:3001";
 
   useEffect(() => {
-    getUsers();
+    if (!currentUser || currentUser.role !== "Manager") {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
 
-  const getUsers = async () => {
-    const response = await axios.get(`${BASE_URL}/users`);
-    setUsers(response.data);
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/users");
+      const filteredUsers = response.data.filter(
+        (user) => user.role === "User"
+      );
+      setUsers(filteredUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
-  const handlePerChange = async (userId, newRole) => {
+  const handlePermissionChange = async (userId, permission, value) => {
     const userToUpdate = users.find((user) => user.id === userId);
-    await axios.patch(`${BASE_URL}/users/${userId}`, {
-      ...userToUpdate,
-      role: newRole,
-    });
 
-    setUsers(
-      users.map((user) =>
-        user.id === userId ? { ...user, role: newRole } : user
-      )
-    );
-    setEditingUserId(null);
-  };
+    if (userToUpdate) {
+      const updatedPermissions = {
+        ...userToUpdate.permissions,
+        [permission]: value,
+      };
 
-  const getPermissionColor = (per) => {
-    if (per === "Create") {
-      return "bg-green-100 text-green-800";
-    } else if (per === "Delete") {
-      return "bg-red-100 text-red-800";
-    } else {
-      return "bg-yellow-100 text-yellow-800";
+      try {
+        await axios.patch(`http://localhost:3001/users/${userId}`, {
+          permissions: updatedPermissions,
+        });
+
+        setUsers(
+          users.map((user) =>
+            user.id === userId
+              ? { ...user, permissions: updatedPermissions }
+              : user
+          )
+        );
+        setEditingUserId(null);
+      } catch (error) {
+        console.error("Error updating permissions:", error);
+      }
     }
   };
 
@@ -46,7 +65,7 @@ function Manager() {
       <Header />
       <div className="max-w-6xl mt-10 mx-auto">
         <h1 className="text-3xl font-serif text-pink-600 text-center mb-12">
-          Manager Panel - User Permissions Management
+          Manager Panel - User Permissions
         </h1>
 
         <div className="bg-white rounded-xl shadow-xl p-6">
@@ -56,7 +75,9 @@ function Manager() {
                 <tr>
                   <th className="p-4">NAME</th>
                   <th className="p-4">EMAIL</th>
-                  <th className="p-4">PERMISSIONS</th>
+                  <th className="p-4">CREATE</th>
+                  <th className="p-4">UPDATE</th>
+                  <th className="p-4">DELETE</th>
                   <th className="p-4">ACTION</th>
                 </tr>
               </thead>
@@ -67,44 +88,40 @@ function Manager() {
                       {user.fName} {user.lName}
                     </td>
                     <td className="p-4">{user.email}</td>
+                    {["create", "update", "delete"].map((permission) => (
+                      <td className="p-4" key={permission}>
+                        {editingUserId === user.id ? (
+                          <input
+                            type="checkbox"
+                            checked={user.permissions?.[permission] || false}
+                            onChange={(e) =>
+                              handlePermissionChange(
+                                user.id,
+                                permission,
+                                e.target.checked
+                              )
+                            }
+                          />
+                        ) : (
+                          <span>
+                            {user.permissions?.[permission] ? "Yes" : "No"}
+                          </span>
+                        )}
+                      </td>
+                    ))}
                     <td className="p-4">
-                      {editingUserId === user.id ? (
-                        <select
-                          defaultValue={user.per}
-                          onChange={(e) =>
-                            handlePerChange(user.id, e.target.value)
-                          }
-                          className="px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-pink-300"
-                        >
-                          <option value="Create">Create</option>
-                          <option value="Delete">Delete</option>
-                          <option value="Update">Update</option>
-                        </select>
-                      ) : (
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs ${getPermissionColor(
-                            user.per
-                          )}`}
-                        >
-                          {user.per}
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-4">
-                      <div className="space-x-2">
-                        <button
-                          onClick={() =>
-                            setEditingUserId(
-                              editingUserId === user.id ? null : user.id
-                            )
-                          }
-                          className="px-3 py-1 text-yellow-600 hover:text-yellow-700"
-                        >
-                          {editingUserId === user.id
-                            ? "Cancel"
-                            : "Change Permission"}
-                        </button>
-                      </div>
+                      <button
+                        onClick={() =>
+                          setEditingUserId(
+                            editingUserId === user.id ? null : user.id
+                          )
+                        }
+                        className="px-3 py-1 text-yellow-600 hover:text-yellow-700"
+                      >
+                        {editingUserId === user.id
+                          ? "Cancel"
+                          : "Edit Permissions"}
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -115,6 +132,6 @@ function Manager() {
       </div>
     </div>
   );
-}
+};
 
 export default Manager;

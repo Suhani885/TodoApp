@@ -11,7 +11,15 @@ const Register = () => {
     password: "",
     cPassword: "",
     role: "User",
-    permissions: ["Create", "Delete", "Update"],
+    permissions: {
+      delete: true,
+      update: true,
+      create: true,
+    },
+    data: {
+      completed: 0,
+      pending: 0,
+    },
     todos: [],
   });
 
@@ -48,6 +56,7 @@ const Register = () => {
         role: formData.role,
         permissions: formData.permissions,
         todos: formData.todos,
+        data: formData.data,
       });
 
       alert("Registration Successful");

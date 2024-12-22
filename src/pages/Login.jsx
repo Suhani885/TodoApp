@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { setUser } from "../slices/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,6 +21,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
 
     try {
       const response = await axios.get(
@@ -24,15 +30,14 @@ const Login = () => {
 
       if (response.data.length > 0) {
         const user = response.data[0];
-
-        localStorage.setItem("user", JSON.stringify(user));
+        dispatch(setUser(user));
         navigate("/dashboard");
       } else {
-        alert("Invalid Credentials");
+        setError("Invalid email or password");
       }
-    } catch (error) {
-      console.error("Login Error", error);
-      alert("Login Failed");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An error occurred during login.");
     }
   };
 
@@ -54,11 +59,12 @@ const Login = () => {
         <p className="text-center text-gray-500 relative bottom-28">
           Please log in to your account
         </p>
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
         <form onSubmit={handleSubmit} className="relative bottom-16">
           <div className="mb-4">
             <input
               type="email"
-              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -70,11 +76,9 @@ const Login = () => {
           <div className="mb-6">
             <input
               type="password"
-              id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,16}"
               className="pl-10 mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-300"
               placeholder="Enter your password"
               required
@@ -104,3 +108,21 @@ const Login = () => {
 };
 
 export default Login;
+
+// import { setUser } from "./userSlice";
+
+// const handleLogin = async () => {
+//   try {
+//     const response = await axios.post("http://localhost:3001/login", {
+//       email,
+//       password,
+//     });
+
+//     if (response.data) {
+//       dispatch(setUser(response.data));
+//       navigate("/dashboard");
+//     }
+//   } catch (error) {
+//     console.error("Login error:", error);
+//   }
+// };
