@@ -40,18 +40,18 @@
       },
       "todos": [
         {
-          "id": 1734848169770,
-          "text": "gqrg4g",
-          "completed": true
-        },
-        {
-          "id": 1734848179905,
-          "text": "hellooooo",
+          "id": 1734882942585,
+          "text": "hello world",
           "completed": false
         },
         {
-          "id": 1734848187957,
-          "text": "hiieeeyyy",
+          "id": 1734882946512,
+          "text": "wassup",
+          "completed": true
+        },
+        {
+          "id": 1734882949699,
+          "text": "nothinggg",
           "completed": false
         }
       ],
@@ -68,8 +68,8 @@
       "password": "Vivienne@123",
       "role": "User",
       "permissions": {
-        "delete": true,
-        "update": false,
+        "delete": false,
+        "update": true,
         "create": true
       },
       "todos": [],
@@ -87,6 +87,24 @@
       "role": "User",
       "permissions": {
         "delete": false,
+        "update": false,
+        "create": true
+      },
+      "todos": [],
+      "data": {
+        "completed": 0,
+        "pending": 0
+      }
+    },
+    {
+      "id": "5aa0",
+      "fName": "Brielle",
+      "lName": "",
+      "email": "b@gmail.com",
+      "password": "Brielle@123",
+      "role": "User",
+      "permissions": {
+        "delete": true,
         "update": true,
         "create": true
       },
